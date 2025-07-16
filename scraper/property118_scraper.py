@@ -1,23 +1,8 @@
-import csv
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
-class CSVWriter:
-    def __init__(self, filename):
-        self.file = open(filename, mode='w', newline='', encoding='utf-8')
-        self.writer = csv.DictWriter(self.file, fieldnames=[
-            "Name/Username", "Email", "Post Excerpt", "Source URL", "Investment Category"
-        ])
-        self.writer.writeheader()
-
-    def write_row(self, data):
-        self.writer.writerow(data)
-
-    def close(self):
-        self.file.close()
 
 class Property118Scraper:
     def __init__(self, url: str, timeout: int = 20):
@@ -63,13 +48,11 @@ class Property118Scraper:
             print("-" * 80)
 
             all_comments.append({
-                "Name/Username": commenter,
-                "Email": "",  # No email data available
-                "Post Excerpt": comment_text[:500],  # Limit excerpt length if you want
+                "Name": commenter,
+                "Email": "",  # try to extract email if available
                 "Source URL": self.url,
-                "Investment Category": ""  # No category data
+                "Platform": "Property118"
             })
-
         return all_comments
 
     def close(self):

@@ -4,7 +4,7 @@ class CSVWriter:
     def __init__(self, filename):
         self.file = open(filename, mode='w', newline='', encoding='utf-8')
         self.writer = csv.DictWriter(self.file, fieldnames=[
-            "Name/Username", "Email", "Post Excerpt", "Source URL", "Investment Category"
+            "Name", "Email", "Source URL", "Platform"
         ])
         self.writer.writeheader()
 

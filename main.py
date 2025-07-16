@@ -3,7 +3,7 @@ from utils.csv_writer import CSVWriter
 def main():
     url = "https://www.property118.com/is-it-time-to-change-the-narrative/"
     scraper = Property118Scraper(url)
-    csv_writer = CSVWriter("csv/property118comments.csv")
+    csv_writer = CSVWriter("csv/property118_is-it-time-to-change-the-narrative.csv")
     try:
         scraper.setup_driver()
         comments = scraper.scrape_comments()
