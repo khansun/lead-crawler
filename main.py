@@ -1,19 +1,28 @@
-from scraper.property118_scraper import Property118Scraper
 from utils.csv_writer import CSVWriter
-def main():
-    url = "https://www.property118.com/is-it-time-to-change-the-narrative/"
-    scraper = Property118Scraper(url)
-    csv_writer = CSVWriter("csv/property118_is-it-time-to-change-the-narrative.csv")
-    try:
-        scraper.setup_driver()
-        comments = scraper.scrape_comments()
-        for comment in comments:
-            csv_writer.write_row(comment)
-    except Exception as e:
-        print(f"[ERROR] {e}")
-    finally:
-        csv_writer.close()
-        scraper.close()
+from scraper.trustpilot import TrustpilotScraper
 
-if __name__ == "__main__":
-    main()
+platforms = [
+    {"url": "https://www.trustpilot.com/review/octopus.energy", "platform_name": "Octopus Energy"},
+    {"url": "https://www.trustpilot.com/review/themoneyplatform.com", "platform_name": "The Money Platform"},
+    {"url": "https://www.trustpilot.com/review/triodos.co.uk", "platform_name": "Triodos Bank UK"},
+    {"url": "https://www.trustpilot.com/review/yielders.co.uk", "platform_name": "Yielders"},
+    {"url": "https://www.trustpilot.com/review/simplecrowdfunding.co.uk", "platform_name": "Simple Crowdfunding"},
+    {"url": "https://www.trustpilot.com/review/uown.co", "platform_name": "UOWN"},
+]
+
+for platform in platforms:
+    print(f"[INFO] Scraping leads from: {platform['platform_name']}")
+    scraper = TrustpilotScraper(
+        url=platform["url"],
+        platform_name=platform["platform_name"]
+    )
+    scraper.setup_driver()
+    leads = scraper.scrape_leads()
+    print(f"[INFO] Found {len(leads)} leads from {platform['platform_name']}")
+    
+    csv_file = f"csv/{platform['platform_name'].lower().replace(' ', '_')}.csv"
+    csv_writer = CSVWriter(csv_file)
+    for lead in leads:
+        csv_writer.write_row(lead)
+    csv_writer.close()
+    scraper.close()
