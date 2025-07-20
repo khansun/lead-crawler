@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class TrustpilotScraper:
-    def __init__(self, url: str, platform_name: str, timeout: int = 20, max_pagination: int = 10):
+    def __init__(self, url: str, platform_name: str, timeout: int = 20, max_pagination: int = 300):
         self.url = url
         self.platform_name = platform_name
         self.timeout = timeout
